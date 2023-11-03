@@ -1,73 +1,69 @@
-
-public class LL {
-    private int size;
-    private Node head;
-
-    //Node
-    public class Node{
-        int data;
+public class LL{
+    Node head;
+    int size;
+    //-------------------------
+    class Node{
         Node next;
-
+        int data;
         public Node(int data){
             this.data = data;
             this.next = null;
             size++;
         }
     }
+    //-------------------------
 
     public void addFirst(int data){
         Node n = new Node(data);
         if(head == null){
             head = n;
-            return;
+        }else {
+            n.next = head;
+            head = n;
         }
-        n.next = head;
-        head = n;
     }
 
     public void addLast(int data){
         Node n = new Node(data);
         if(head == null){
             head = n;
-        }else{
-            Node lastN = head; //nn means new node
-            while(lastN.next != null){
-                lastN = lastN.next;
-            }
-            lastN.next = n;
-
-        }
-    }
-
-    public void addInMiddle(int index, int data){
-        if(index > size || index < 0){
-            System.out.println("Invalid index value");
             return;
         }
-        Node n = new Node(data);
 
-        if (head == null || index == 0 ){
+        Node  cn = head;
+        while(cn.next != null){
+            cn = cn.next;
+        }
+        cn.next = n;
+    }
+
+    public void addAtRandom(int index, int data){
+        if(index < 0 || index > size){
+            System.out.println("Invalid index number");
+            return;
+        }
+        Node n = new Node(data); //it will change size
+        if(index == 0){
             n.next = head;
             head = n;
             return;
         }
 
         Node cn = head;
-        for(int i=1; i<size; i++){
+        for(int i=1; i < size; i++){
             if(i == index){
-                Node nextN = cn.next;
+                Node nn = cn.next;
                 cn.next = n;
-                n.next = nextN;
+                n.next = nn;
                 break;
             }
             cn = cn.next;
         }
-
     }
 
     public void removeFirst(){
         if(head == null){
-            System.out.println("Empty list, Nothing to delete");
+            System.out.println("List is Empty, nothing to remove");
             return;
         }
         head = head.next;
@@ -76,7 +72,7 @@ public class LL {
 
     public void removeLast(){
         if(head == null){
-            System.out.println("Empty list, Nothing to delete");
+            System.out.println("List is Empty, nothing to remove");
             return;
         }
         size--;
@@ -84,36 +80,44 @@ public class LL {
             head = null;
             return;
         }
+        Node cn = head;         //cn means currentNode
+        Node ln = head.next;    //ln means lastNode
 
-        Node cn = head;
-        Node lastN = head.next;
-        while(lastN.next != null){
+        while(ln.next != null){
             cn = cn.next;
-            lastN = lastN.next;
+            ln = ln.next;
         }
         cn.next = null;
     }
 
     public void removeAtRandom(int index){
         if(index > size || index < 0){
-            System.out.println("Invalid index number");
+            System.out.println("Invalid index number.");
+            return;
         }
-        else if(index == 0){
-            removeFirst();
-        }
-        else{
-            // Regular case: Traverse the list to the node before the one to be removed
-            Node cn = head;
-            int count = 0;
-            while (cn != null && count < index - 1) {
-                cn = cn.next;
-                count++;
-            }
 
-            // Remove the node by updating references
-            cn.next = cn.next.next;
-            size--;
+        size--;
+        if(index == 0 ){
+            removeFirst();
+            return;
         }
+
+        Node cn = head;
+        for(int i=1; i < index; i++){
+            cn = cn.next;
+        }
+        cn.next = cn.next.next;
+    }
+
+
+    public void printList(){
+        Node cn = head;
+        System.out.print("[ ");
+        while(cn != null){
+            System.out.print(cn.data+" -> ");
+            cn = cn.next;
+        }
+        System.out.print("null ]\n");
     }
 
     public void search(int data){
@@ -131,50 +135,33 @@ public class LL {
 
     }
 
-    public void printList(){
-        Node cn = head;
-        System.out.print("[ ");
-        while(cn != null){
-            System.out.print(cn.data+" -> ");
-            cn = cn.next;
-        }
-        System.out.print("null ]\n");
-    }
+
 
     public int getSize(){
-        return (size);
+        return size;
     }
 
-    public int get(int index){
-        Node n = head;
-        int count= 0;
-
-        while(n != null){
-            if(index == count){
-                return n.data;
-            }
-            n = n.next;
-            count++;
-        }
-        return 0;
-    }
-
-
-
-
-
-    public static void main(String[] args) {
-
+    public static void main(String[] args){
+        System.out.println("Linked List");
         LL l1 = new LL();
-        l1.addFirst(4);
-        l1.addLast(7);
-        l1.addLast(74);
-        l1.addLast(4);
-        l1.addLast(37);
+        l1.addLast(242);
+        l1.addLast(399);
+        l1.addLast(121);
+        l1.addLast(222);
+        l1.addLast(2122);
+        l1.addLast(222);
         System.out.println(l1.getSize());
         l1.printList();
-        l1.removeAtRandom(5);
-        System.out.println(l1.getSize());
+        l1.removeAtRandom(4);
         l1.printList();
+
     }
 }
+
+
+
+
+
+
+
+
