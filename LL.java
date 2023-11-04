@@ -96,12 +96,11 @@ public class LL{
             return;
         }
 
-        size--;
         if(index == 0 ){
             removeFirst();
             return;
         }
-
+        size--;
         Node cn = head;
         for(int i=1; i < index; i++){
             cn = cn.next;
