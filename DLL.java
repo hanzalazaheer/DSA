@@ -35,6 +35,7 @@ public class DLL{
         if(head == null){
             head = n;
             tail = n;
+            return;
         }
         tail.next = n;
         n.prev = tail;
