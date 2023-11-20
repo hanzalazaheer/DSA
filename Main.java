@@ -1,6 +1,134 @@
 import java.util.Scanner;
 
+//queue using Linked List
+class QueueLL {
+    Node front = null;
+    Node rear = null;
 
+    class Node {
+        int data;
+        Node next;
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public boolean isEmpty() {
+        return front == null && rear == null;
+    }
+
+    public void add(int data) {
+        Node newNode = new Node(data);
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+    }
+
+    public int remove() {
+        if (isEmpty()) {
+            System.out.println("Queue is Empty");
+            return -1;
+        }
+        int fvalue = front.data;
+        //single node
+        if (front == rear) {
+            rear = null;
+        }
+        front = front.next;
+        return fvalue;
+    }
+
+    public int peek(){
+        if(isEmpty()){
+            return -1;
+        }
+        return front.data;
+    }
+
+    public void print(){
+        Node cn = front;
+        System.out.print("{ ");
+        while(cn != null){
+            System.out.print(cn.data+" -- ");
+            cn = cn.next;
+        }
+        System.out.print("}\n");
+    }
+}
+
+//Queue using Array
+class QueueArr{
+    int  rear, size;
+    int[] arr;
+
+
+    QueueArr(int size){
+        this.size =size;
+        arr = new int[size];
+        rear = -1;
+    }
+
+    public boolean isEmpty(){
+        return rear == -1;
+    }
+
+    public boolean isFull(){
+        return rear == size-1;
+    }
+
+    public void enque(int val){
+
+        if(isFull()){
+            System.out.println("Queue is Full");
+            return;
+        }
+
+        arr[++rear] = val;
+    }
+
+    public int deque(){
+        if(isEmpty()){
+            return -1;
+        }
+
+        int f = arr[0];
+
+        for (int i=0; i<rear; i++){
+            arr[i] = arr[i+1];
+        }
+        rear--;
+        return f;
+
+    }
+
+    public int peek(){
+        if (isEmpty()){
+            System.out.println("Queue is Empty");
+            return -1;
+        }
+        else{
+            return arr[0];
+        }
+    }
+
+    public void print(){
+        for (int i=0; i<=rear; i++){
+            System.out.print(arr[i]+" -- ");
+        }
+        System.out.println("\nFront: "+arr[0]);
+        System.out.println("Rear: "+arr[rear]);
+    }
+
+    public int getSize(){
+        return size;
+    }
+
+}
 //stack using LL
 class StackLL{
     Node head;
@@ -360,13 +488,13 @@ public class Main {
                 }
                 break;
             case 3:
-                System.out.println("1. Queue using Array\n 2. Queue using LinkedList");
+                System.out.println("1. Queue using Array\n2. Queue using LinkedList");
                 System.out.print("------Enter: ");
                 int c3 = sc.nextInt();
                 if(c3 == 1){
-
+                    queueUsingArrMenu(sc);
                 } else if (c3 == 2) {
-
+                    queueUsingLLMenu(sc);
                 }else{
                     System.out.println("Invalid choice");
                     System.out.println("Thank you for using this program");
@@ -565,7 +693,92 @@ public class Main {
         }
     }
 
+    //dfd
+    static void queueUsingArrMenu(Scanner sc){
+        System.out.print("Enter size of Queue: ");
+        int s = sc.nextInt();
+        QueueArr q1 = new QueueArr(s);
+        System.out.println("Queue is successfully created..");
+
+        while(true){
+            System.out.println("1. Enqueue\n2. Dequeue\n3. Peek\n4. Print\n5. Exit the program");
+            System.out.print("----Enter: ");
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter data for Enqueue: ");
+                    int d = sc.nextInt();
+                    q1.enque(d);
+                    break;
+                case 2:
+                    System.out.println("1. Deque with Print\n2. Deque");
+                    System.out.print("----Enter: ");
+                    int c2 = sc.nextInt();
+                    if (c2 == 1) {
+                        System.out.println("Dequeued :"+q1.deque());
+                    } else if (c2 == 2) {
+                        q1.deque();
+                    } else {
+                        System.out.println("Invalid choice");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Peek: "+q1.peek());
+                    break;
+                case 4:
+                    q1.print();
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid Choice");
+                    break;
+            }
+        }
+    }
+
+    //queueUsingArrMenu(sc);
+    public static void queueUsingLLMenu(Scanner sc){
+        QueueLL q1 = new QueueLL();
+        System.out.println("Queue using LL is successfully created..");
+
+        while(true){
+            System.out.println("1. Add\n2. Remove\n3. Peek\n4. Print\n5. Exit the program");
+            System.out.print("----Enter: ");
+            int choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter data for Enqueue: ");
+                    int d = sc.nextInt();
+                    q1.add(d);
+                    break;
+                case 2:
+                    System.out.println("1. Deque with Print\n2. Deque");
+                    System.out.print("----Enter: ");
+                    int c2 = sc.nextInt();
+                    if (c2 == 1) {
+                        System.out.println("Dequeued :"+q1.remove());
+                    } else if (c2 == 2) {
+                        q1.remove();
+                    } else {
+                        System.out.println("Invalid choice");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Peek: "+q1.peek());
+                    break;
+                case 4:
+                    q1.print();
+                    break;
+                case 5:
+                    return;
+                default:
+                    System.out.println("Invalid Choice");
+                    break;
+            }
+        }
+    }
+
 
 
 }
-
